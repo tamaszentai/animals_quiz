@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<h1>Animals quiz</h1>
+<quiz-box> </quiz-box>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import quizBox from './components/quizBox.vue';
 
 export default {
   name: 'App',
+  data(){
+    return {
+      questions: []
+    }
+  },
+  mounted() {
+
+  fetch('https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean')
+  .then(res => res.json())
+  .then(results => this.questions = results)
+},
+
+
   components: {
-    HelloWorld
+    "quiz-box": quizBox
   }
 }
 </script>
