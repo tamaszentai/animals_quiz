@@ -1,30 +1,40 @@
 <template>
   <div id="app">
-<h1>Animals quiz</h1>
-<quiz-box> </quiz-box>
+    <h1>Animals Quiz</h1>
+    <quiz-box
+      v-if="questions.length"
+     :currentQuestion="questions[index]" />
+     <button>Submit</button>
+     <button @click="nextQuestion">Next</button>
   </div>
 </template>
 
 <script>
-import quizBox from './components/quizBox.vue';
+import QuizBox from './components/QuizBox.vue';
 
 export default {
   name: 'App',
   data(){
     return {
-      questions: []
+      questions: [],
+      index: 0
     }
   },
-  mounted() {
 
-  fetch('https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=boolean')
-  .then(res => res.json())
-  .then(results => this.questions = results)
-},
+  mounted() {
+    fetch('https://opentdb.com/api.php?amount=10&category=27&type=multiple')
+    .then(res => res.json())
+    .then(res => this.questions = res.results)
+  },
 
 
   components: {
-    "quiz-box": quizBox
+    "quiz-box": QuizBox
+  },
+  methods: {
+    nextQuestion(){
+      this.index++
+    }
   }
 }
 </script>
